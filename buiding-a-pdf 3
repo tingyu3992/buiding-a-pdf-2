@@ -1,0 +1,25 @@
+def main():
+    query = "人工智慧在醫療領域有哪些應用？"
+    relevant_passages = [
+        "人工智慧可協助醫師分析影像數據，例如放射線影像診斷。",
+        "AI 模型能從病歷中預測患者可能的健康風險，實現早期預警。",
+        "聊天機器人或虛擬助手可用於回答患者常見問題，提升醫療效率。"
+    ]
+
+    final_prompt = make_rag_prompt(query, relevant_passages)
+
+    # 固定溫度為 0.5
+    temperature = 0.5
+    token_limits = [20, 50, 200]
+
+    print("=== 回應長度測試：max_output_tokens ===")
+    for max_tok in token_limits:
+        print(f"\n🟨 max_output_tokens = {max_tok}")
+        answer = generate_answer(final_prompt, temperature=temperature, max_tokens=max_tok)
+        print(answer)
+
+    print("\n=== 分析建議 ===")
+    print("- max_tokens 越小，輸出越容易被截斷，語意可能不完整。")
+    print("- max_tokens = 20 時，通常只有一句話或半句話。")
+    print("- max_tokens = 50 可提供簡短摘要或要點。")
+    print("- max_tokens = 200 足以產生較完整段落甚至多段。")
