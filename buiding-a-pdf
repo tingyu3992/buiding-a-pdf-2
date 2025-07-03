@@ -1,0 +1,28 @@
+import google.generativeai as genai
+from google.generativeai.types import GenerationConfig
+
+def generate_answer(prompt, temperature=0.7, max_tokens=512):
+    """
+    使用 Gemini 模型根據提示產生答案，可自訂溫度與最大字數。
+
+    參數：
+        prompt (str): 已格式化的提示內容。
+        temperature (float): 控制創造性（0 越保守，1 越創新）。
+        max_tokens (int): 回應的最大字元數（Token 數）。
+
+    傳回：
+        str: 模型生成的回應文字。
+    """
+    # 初始化模型（請確保事先已設好 API 金鑰）
+    model = genai.GenerativeModel("gemini-pro")
+
+    # 建立生成配置
+    config = GenerationConfig(
+        temperature=temperature,
+        max_output_tokens=max_tokens
+    )
+
+    # 產生內容
+    response = model.generate_content(prompt, generation_config=config)
+
+    return response.text.strip()
